@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>木作裁条排样</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="site-header no-print">
+    <div class="container header-inner">
+      <h1>🪚 木作裁条排样</h1>
+      <p class="subtitle">输入新料定长、余料、锯缝与裁件清单，自动生成逐根裁切方案</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 输入区 -->
+    <section class="card no-print" id="input-card">
+      <h2>参数输入</h2>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="new-length">新料定长</label>
+          <div class="input-wrap">
+            <input type="number" id="new-length" min="0" step="any" value="2400" />
+            <span class="unit">mm</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="kerf">锯缝宽度</label>
+          <div class="input-wrap">
+            <input type="number" id="kerf" min="0" step="any" value="3" />
+            <span class="unit">mm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label>已有余料（各根长度，可留空不填）</label>
+          <button type="button" class="btn btn-ghost btn-sm" id="add-leftover">＋ 添加余料</button>
+        </div>
+        <div id="leftover-list" class="stock-list"></div>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label>裁件清单 <small>（总计不超过 <span id="max-pieces">12</span> 件）</small></label>
+          <button type="button" class="btn btn-ghost btn-sm" id="add-piece">＋ 添加裁件</button>
+        </div>
+        <div class="piece-head">
+          <span class="ph-length">裁件长度</span>
+          <span class="ph-qty">数量</span>
+          <span class="ph-total">小计件数</span>
+          <span class="ph-op"></span>
+        </div>
+        <div id="piece-list"></div>
+        <div class="piece-count">合计 <strong id="piece-total">0</strong> / 12 件</div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary btn-lg" id="solve-btn">生成排样方案</button>
+        <span class="error-msg" id="form-error" role="alert"></span>
+      </div>
+    </section>
+
+    <!-- 结果区 -->
+    <section id="result-area" hidden>
+      <div class="result-toolbar no-print">
+        <button type="button" class="btn btn-outline" id="back-btn">← 返回修改</button>
+        <button type="button" class="btn btn-primary" id="print-btn">🖨 打印方案</button>
+      </div>
+
+      <div class="print-head" id="print-head"></div>
+
+      <!-- 超长/不可裁切提示 -->
+      <div class="card card-error" id="error-panel" hidden>
+        <h2>⚠️ 无法生成裁切方案</h2>
+        <p id="error-text"></p>
+        <div id="overlong-list"></div>
+      </div>
+
+      <!-- 正常方案 -->
+      <div id="plan-panel" hidden>
+        <div class="summary-row" id="summary-row"></div>
+        <div id="bars"></div>
+        <div class="card card-muted" id="unused-panel" hidden>
+          <h3>未动用的余料</h3>
+          <div id="unused-list" class="unused-list"></div>
+        </div>
+        <p class="note">
+          规则：每切下一件计一道锯缝；末段恰好作为裁件（零尾料）时免该道锯缝。
+          示意图中锯缝以固定宽度的斜线块表示，未按真实比例绘制；各段尺寸以数字标注为准。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer no-print">
+    <div class="container">
+      <span>木作裁条排样 · 本地计算，无需账号</span>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

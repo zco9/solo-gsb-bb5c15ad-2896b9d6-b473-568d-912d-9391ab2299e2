@@ -1,0 +1,11 @@
+services:
+  woodcut:
+    build: .
+    image: woodcut-planner:latest
+    container_name: woodcut-planner
+    ports:
+      - "8000:8000"
+    environment:
+      # 容器内监听端口（左侧宿主机端口可按需修改）
+      PORT: "8000"
+    restart: unless-stopped
