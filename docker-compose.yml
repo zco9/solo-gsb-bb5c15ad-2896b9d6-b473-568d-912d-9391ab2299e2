@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    image: woodcut-layout-web
+    container_name: woodcut-layout-web
+    ports:
+      - "${PORT:-8000}:8000"
+    restart: unless-stopped

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>木作裁条排样助手</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪚</text></svg>" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="no-print">
+    <h1>🪚 木作裁条排样助手</h1>
+    <p>新料根数最少优先，其次已用原料尾料总长最少；逐根列出裁件、锯缝损耗与尾料。</p>
+  </header>
+
+  <main>
+    <section class="card no-print" id="input-card">
+      <form id="optimize-form" novalidate>
+        <div class="grid-2">
+          <label>新料定长（mm）
+            <input type="number" id="stock-length" min="1" step="any" value="2440" required />
+          </label>
+          <label>锯缝宽度（mm）
+            <input type="number" id="kerf" min="0" step="any" value="3" required />
+          </label>
+        </div>
+
+        <div class="list-head">
+          <h2>已有余料</h2>
+          <button type="button" class="btn-small" id="add-remnant">＋ 添加余料</button>
+        </div>
+        <p class="hint">每行一根余料的长度；没有余料可留空。</p>
+        <div id="remnant-list"></div>
+
+        <div class="list-head">
+          <h2>裁件清单</h2>
+          <button type="button" class="btn-small" id="add-piece">＋ 添加裁件</button>
+        </div>
+        <p class="hint">裁件总数不超过 12 件。当前：<b id="piece-total">0</b> / 12</p>
+        <div id="piece-list"></div>
+
+        <div id="form-error" class="error-box hidden"></div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">生成裁切方案</button>
+          <button type="button" class="btn" id="load-example">填入示例</button>
+          <button type="button" class="btn" id="clear-all">清空</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="result-section" class="hidden">
+      <div class="print-only" id="print-header"></div>
+      <div class="result-toolbar no-print">
+        <button class="btn-primary" id="print-btn">🖨️ 打印方案</button>
+      </div>
+      <div id="result-error" class="error-box hidden"></div>
+      <div id="summary-box"></div>
+      <div id="legend" class="legend hidden">
+        <span><i class="sw piece-sw"></i>裁件</span>
+        <span><i class="sw kerf-sw"></i>锯缝损耗</span>
+        <span><i class="sw left-sw"></i>尾料</span>
+      </div>
+      <div id="plan-list"></div>
+      <div id="unused-box"></div>
+    </section>
+  </main>
+
+  <footer class="no-print">木作裁条排样助手 · 本地运行，无需账号</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
